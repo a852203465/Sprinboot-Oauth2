@@ -1,4 +1,4 @@
-package com.github.authorization.vo;
+package com.github.authorization.pojo.vo;
 
 import com.github.authorization.entity.Authority;
 import lombok.Data;
