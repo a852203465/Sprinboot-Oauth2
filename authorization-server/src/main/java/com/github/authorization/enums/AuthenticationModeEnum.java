@@ -10,7 +10,7 @@ import com.github.core.utils.ObjectUtils;
 public enum  AuthenticationModeEnum {
 
     // 密码模式
-    PASSWORD_MODE(1, "password"),
+    PASSWORD_MODE(1, "password,refresh_token"),
 
     // 授权码模式
     authorization_code_MODE(2, "authorization_code"),

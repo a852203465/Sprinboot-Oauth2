@@ -99,6 +99,12 @@
             <systemPath>${pom.basedir}/src/main/resources/libs/javautils-1.0.jar</systemPath>-->
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.0.9.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>

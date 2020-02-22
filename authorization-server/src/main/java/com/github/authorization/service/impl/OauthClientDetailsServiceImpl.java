@@ -14,10 +14,7 @@ import com.github.authorization.exception.AuthorizationServerException;
 import com.github.authorization.mapper.OauthClientDetailsMapper;
 import com.github.authorization.pojo.dto.OauthClientDetailsDTO;
 import com.github.authorization.pojo.dto.PageDTO;
-import com.github.authorization.pojo.vo.AuthorizationVO;
-import com.github.authorization.pojo.vo.OauthClientDetailsVO;
-import com.github.authorization.pojo.vo.PageVO;
-import com.github.authorization.pojo.vo.UserInfoVO;
+import com.github.authorization.pojo.vo.*;
 import com.github.authorization.service.OauthClientDetailsService;
 import com.github.authorization.service.UserInfoService;
 import com.github.authorization.utils.RestTemplateUtils;
@@ -83,7 +80,7 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
         oauthClientDetails.setResourceIds(RESOURCE_IDS);
         oauthClientDetails.setClientSecret(EncryptUtils.encodeAES(oauthClientDetailsDTO.getClientSecret(),
                 authConfig.getEncryptAESKey()));
-        oauthClientDetails.setAuthorizedGrantTypes(AUTHORIZED_GRANT_TYPES_CLIENT);
+        oauthClientDetails.setAuthorizedGrantTypes(AuthenticationModeEnum.getValue(4));
         oauthClientDetails.setScope(SCOPE_ALL);
         oauthClientDetails.setAccessTokenValidity(oauthClientDetailsDTO.getValidity());
 
@@ -174,11 +171,11 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
         headers.put(AUTHORIZATION_HEADER, BASIC + clientSecret);
 
         MultiValueMap<String, String> requstBody = new LinkedMultiValueMap<>();
-        requstBody.add("grant_type", AuthenticationModeEnum.getValue(1));
+        requstBody.add("grant_type", StringUtils.split(AuthenticationModeEnum.getValue(1), CharUtils.COMMA).get(0));
         requstBody.add("username", userInfoVO.getUsername());
         requstBody.add("password", EncryptUtils.decodeAES(userInfoVO.getPassword(), authConfig.getEncryptAESKey()));
 
-        return RestTemplateUtils.post(url, headers, requstBody, AuthorizationVO.class, new Object[]{});
+        return RestTemplateUtils.post(url, headers, requstBody, AuthorizationVO.class);
 
     }
 
@@ -212,4 +209,6 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
 
         return oauthClientDetailsVO;
     }
+
+
 }

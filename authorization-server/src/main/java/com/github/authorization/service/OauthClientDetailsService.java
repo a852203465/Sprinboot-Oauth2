@@ -7,6 +7,7 @@ import com.github.authorization.pojo.dto.PageDTO;
 import com.github.authorization.pojo.vo.AuthorizationVO;
 import com.github.authorization.pojo.vo.OauthClientDetailsVO;
 import com.github.authorization.pojo.vo.PageVO;
+import com.github.authorization.pojo.vo.TokenCheckVO;
 
 import java.util.List;
 
@@ -81,8 +82,6 @@ public interface OauthClientDetailsService extends IService<OauthClientDetails> 
      * @return 客户端信息vo 对象
      */
     OauthClientDetailsVO objectConversion(OauthClientDetails oauthClientDetails);
-
-
 
 
 
