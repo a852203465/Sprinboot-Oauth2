@@ -46,7 +46,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         Assert.notBlank(username, ResponseEnum.THE_NAME_CANNOT_BE_EMPTY.getMessage());
 
-        return BeanUtils.copyProperties(userInfoMapper.findUserInfoByUsername(username), UserInfoVO.class);
+        UserInfo userInfo = userInfoMapper.findUserInfoByUsername(username);
+
+        return BeanUtils.copyProperties(userInfo, UserInfoVO.class);
     }
 
     @Override

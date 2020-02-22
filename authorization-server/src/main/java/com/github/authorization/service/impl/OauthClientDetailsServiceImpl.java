@@ -174,7 +174,7 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
         headers.put(AUTHORIZATION_HEADER, BASIC + clientSecret);
 
         MultiValueMap<String, String> requstBody = new LinkedMultiValueMap<>();
-        requstBody.add("grant_type", oauthClientDetails.getAuthorizedGrantTypes());
+        requstBody.add("grant_type", AuthenticationModeEnum.getValue(1));
         requstBody.add("username", userInfoVO.getUsername());
         requstBody.add("password", EncryptUtils.decodeAES(userInfoVO.getPassword(), authConfig.getEncryptAESKey()));
 

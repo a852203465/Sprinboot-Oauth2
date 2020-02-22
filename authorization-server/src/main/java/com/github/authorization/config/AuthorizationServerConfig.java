@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
@@ -28,10 +30,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private DataSource dataSource;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserDetailsService userDetailsService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Bean
-    public JdbcClientDetailsService  jdbcClientDetailsService() {
+    public JdbcClientDetailsService jdbcClientDetailsService() {
         return new ClientDetailsServiceImpl(dataSource);
     }
 
@@ -39,9 +47,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public TokenStore tokenStore() {
         return new JdbcTokenStore(dataSource);
     }
-
-    @Autowired
-    public UserDetailsService userDetailsService;
 
     /**
      * 配置 token 节点的安全策略
@@ -62,19 +67,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
-        //设置客户端的配置从数据库中读取，存储在oauth_client_details表
-        clients.withClientDetails(jdbcClientDetailsService());
+        clients.withClientDetails(jdbcClientDetailsService());  //设置客户端的配置从数据库中读取，存储在oauth_client_details表
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-
-        // 开启密码验证，来源于 WebSecurityConfigurerAdapter
-        endpoints.authenticationManager(authenticationManager)
-
-                // 读取验证用户的信息
-                .userDetailsService(userDetailsService)
+        endpoints.authenticationManager(authenticationManager) // 开启密码验证，来源于 WebSecurityConfigurerAdapter
+                .userDetailsService(userDetailsService) // 读取验证用户的信息
                 .tokenStore(tokenStore());
 
     }
