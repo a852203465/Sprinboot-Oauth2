@@ -2,7 +2,7 @@ package com.github.authorization.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.authorization.entity.Credentials;
-import com.github.authorization.vo.CredentialsVO;
+import com.github.authorization.pojo.vo.CredentialsVO;
 
 /**
  * 登录凭证业务层

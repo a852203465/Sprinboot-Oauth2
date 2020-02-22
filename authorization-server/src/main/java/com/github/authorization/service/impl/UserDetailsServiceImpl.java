@@ -1,7 +1,7 @@
 package com.github.authorization.service.impl;
 
 import com.github.authorization.service.CredentialsService;
-import com.github.authorization.vo.CredentialsVO;
+import com.github.authorization.pojo.vo.CredentialsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

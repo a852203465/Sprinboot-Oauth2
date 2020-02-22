@@ -8,7 +8,7 @@ import com.github.authorization.pojo.vo.OauthClientDetailsVO;
 import com.github.authorization.pojo.vo.PageVO;
 import com.github.authorization.service.OauthClientDetailsService;
 import com.github.authorization.validator.groupvlidator.ClientDetailsGroupValidator;
-import com.github.authorization.vo.ResponseVO;
+import com.github.authorization.pojo.vo.ResponseVO;
 import com.github.core.lang.Assert;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * 监控基础平台WEB

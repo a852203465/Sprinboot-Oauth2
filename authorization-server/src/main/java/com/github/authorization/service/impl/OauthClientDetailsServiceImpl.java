@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.authorization.config.AuthConfig;
 import com.github.authorization.config.ServerConfig;
-import com.github.authorization.constants.NetworkProtocol;
 import com.github.authorization.entity.OauthClientDetails;
 import com.github.authorization.enums.ResponseEnum;
 import com.github.authorization.enums.URLEnum;
@@ -19,7 +18,6 @@ import com.github.authorization.pojo.vo.OauthClientDetailsVO;
 import com.github.authorization.pojo.vo.PageVO;
 import com.github.authorization.service.OauthClientDetailsService;
 import com.github.authorization.utils.RestTemplateUtils;
-import com.github.authorization.utils.SpringUtils;
 import com.github.core.codec.Base64;
 import com.github.core.collection.CollectionUtils;
 import com.github.core.convert.Convert;
@@ -28,7 +26,6 @@ import com.github.core.lang.Validator;
 import com.github.core.utils.ObjectUtils;
 import com.github.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,10 +39,9 @@ import static com.github.authorization.constants.Oauth2Constant.*;
  * @date 2020/02/21 10:55
  */
 @Service
-@DependsOn("springUtils")
 public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetailsMapper, OauthClientDetails> implements OauthClientDetailsService {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     @Autowired
     private AuthConfig authConfig;

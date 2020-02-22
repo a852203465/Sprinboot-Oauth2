@@ -1,9 +1,8 @@
 package com.github.authorization.serivce;
 
 import com.github.authorization.AuthorizationServerApplicationTests;
-import com.github.authorization.entity.Credentials;
 import com.github.authorization.service.CredentialsService;
-import com.github.authorization.vo.CredentialsVO;
+import com.github.authorization.pojo.vo.CredentialsVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,4 +1,4 @@
-package com.github.authorization.vo;
+package com.github.authorization.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.authorization.enums.ResponseEnum;

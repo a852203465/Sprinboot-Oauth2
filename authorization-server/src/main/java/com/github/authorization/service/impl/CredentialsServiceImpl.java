@@ -8,7 +8,7 @@ import com.github.authorization.entity.Credentials;
 import com.github.authorization.mapper.CredentialsMapper;
 import com.github.authorization.service.AuthorityService;
 import com.github.authorization.service.CredentialsService;
-import com.github.authorization.vo.CredentialsVO;
+import com.github.authorization.pojo.vo.CredentialsVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

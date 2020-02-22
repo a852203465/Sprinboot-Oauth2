@@ -1,7 +1,7 @@
 package com.github.authorization.exception.handler;
 
 import com.github.authorization.exception.AuthorizationServerException;
-import com.github.authorization.vo.ResponseVO;
+import com.github.authorization.pojo.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
