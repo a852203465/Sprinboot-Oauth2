@@ -77,19 +77,37 @@ public class AuthorizationController {
 
     }
 
-    @ApiOperation("获取客户端授权")
+    @ApiOperation("获取客户端授权, 客户端模式")
     @GetMapping(value = "clientDetails/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "clientId", dataType = "Long", value = "主键", required = true)
     })
-    public ResponseVO<AuthorizationVO> findClientDetails (@PathVariable("clientId")
+    public ResponseVO<AuthorizationVO> getAuthorizationByClientCredentials (@PathVariable("clientId")
                                            @NotNull(message = "主键 不能为空", groups = ClientDetailsGroupValidator.class) Long clientId) {
 
-        log.info("findClientDetails {}", clientId);
+        log.info("getAuthorizationByClientCredentials {}", clientId);
 
         Assert.notNull(clientId, ResponseEnum.THE_ID_CANNOT_BE_EMPTY.getMessage());
 
-        AuthorizationVO authorizationVO = oauthClientDetailsService.getAuthorization(clientId);
+        AuthorizationVO authorizationVO = oauthClientDetailsService.getAuthorizationByClientCredentials(clientId);
+
+        return ResponseVO.success(authorizationVO);
+
+    }
+
+    @ApiOperation("获取客户端授权, 密码模式")
+    @GetMapping(value = "password/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "path", name = "userId", dataType = "Long", value = "用户ID", required = true)
+    })
+    public ResponseVO<AuthorizationVO> getAuthorizationByPassword (@PathVariable("userId")
+                                                                            @NotNull(message = "用户ID 不能为空", groups = ClientDetailsGroupValidator.class) Long userId) {
+
+        log.info("getAuthorizationByPassword {}", userId);
+
+        Assert.notNull(userId, ResponseEnum.THE_ID_CANNOT_BE_EMPTY.getMessage());
+
+        AuthorizationVO authorizationVO = oauthClientDetailsService.getAuthorizationByPassword(userId);
 
         return ResponseVO.success(authorizationVO);
 

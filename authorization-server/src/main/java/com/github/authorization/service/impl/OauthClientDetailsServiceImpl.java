@@ -17,18 +17,23 @@ import com.github.authorization.pojo.dto.PageDTO;
 import com.github.authorization.pojo.vo.AuthorizationVO;
 import com.github.authorization.pojo.vo.OauthClientDetailsVO;
 import com.github.authorization.pojo.vo.PageVO;
+import com.github.authorization.pojo.vo.UserInfoVO;
 import com.github.authorization.service.OauthClientDetailsService;
+import com.github.authorization.service.UserInfoService;
 import com.github.authorization.utils.RestTemplateUtils;
 import com.github.core.codec.Base64;
 import com.github.core.collection.CollectionUtils;
 import com.github.core.convert.Convert;
 import com.github.core.encryption.EncryptUtils;
 import com.github.core.lang.Validator;
+import com.github.core.utils.CharUtils;
 import com.github.core.utils.ObjectUtils;
 import com.github.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.*;
 
@@ -49,6 +54,9 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
 
     @Autowired
     private ServerConfig serverConfig;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Override
     public OauthClientDetails findOauthClientDetailsByClientId(String clientId) {
@@ -75,7 +83,7 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
         oauthClientDetails.setResourceIds(RESOURCE_IDS);
         oauthClientDetails.setClientSecret(EncryptUtils.encodeAES(oauthClientDetailsDTO.getClientSecret(),
                 authConfig.getEncryptAESKey()));
-        oauthClientDetails.setAuthorizedGrantTypes(AuthenticationModeEnum.getValue(oauthClientDetailsDTO.getMode()));
+        oauthClientDetails.setAuthorizedGrantTypes(AUTHORIZED_GRANT_TYPES_CLIENT);
         oauthClientDetails.setScope(SCOPE_ALL);
         oauthClientDetails.setAccessTokenValidity(oauthClientDetailsDTO.getValidity());
 
@@ -124,7 +132,7 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
     }
 
     @Override
-    public AuthorizationVO getAuthorization(Long clientId) {
+    public AuthorizationVO getAuthorizationByClientCredentials(Long clientId) {
 
         OauthClientDetails oauthClientDetails = super.getById(clientId);
 
@@ -140,7 +148,38 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
         String clientSecret = Base64.encode((oauthClientDetails.getClientId() + StringUtils.COLON + decodeAES));
         headers.put(AUTHORIZATION_HEADER, BASIC + clientSecret);
 
-        return RestTemplateUtils.post(url, headers, null, AuthorizationVO.class, new Object[]{});
+        MultiValueMap<String, String> requstBody = new LinkedMultiValueMap<>();
+        requstBody.add("grant_type", oauthClientDetails.getAuthorizedGrantTypes());
+
+        return RestTemplateUtils.post(url, headers, requstBody, AuthorizationVO.class, new Object[]{});
+    }
+
+    @Override
+    public AuthorizationVO getAuthorizationByPassword(Long userId) {
+
+        UserInfoVO userInfoVO = userInfoService.findOne(userId);
+
+        if (ObjectUtils.isNull(userInfoVO)) {
+            throw new AuthorizationServerException(ResponseEnum.THE_USER_DOES_NOT_EXIST);
+        }
+
+        OauthClientDetails oauthClientDetails = this.findOauthClientDetailsByClientId(userInfoVO.getUsername());
+
+        String url = serverConfig.getUrl() + URLEnum.OAUTH_TOKEN.getValue();
+
+        Map<String, String> headers = new HashMap<>();
+
+        String decodeAES = EncryptUtils.decodeAES(oauthClientDetails.getClientSecret(), authConfig.getEncryptAESKey());
+        String clientSecret = Base64.encode((oauthClientDetails.getClientId() + StringUtils.COLON + decodeAES));
+        headers.put(AUTHORIZATION_HEADER, BASIC + clientSecret);
+
+        MultiValueMap<String, String> requstBody = new LinkedMultiValueMap<>();
+        requstBody.add("grant_type", oauthClientDetails.getAuthorizedGrantTypes());
+        requstBody.add("username", userInfoVO.getUsername());
+        requstBody.add("password", EncryptUtils.decodeAES(userInfoVO.getPassword(), authConfig.getEncryptAESKey()));
+
+        return RestTemplateUtils.post(url, headers, requstBody, AuthorizationVO.class, new Object[]{});
+
     }
 
     @Override

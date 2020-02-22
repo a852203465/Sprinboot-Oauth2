@@ -24,9 +24,10 @@ public enum ResponseEnum {
     THE_NAME_CANNOT_BE_EMPTY(1005, "名称不能为空"),
 
     THE_CLIENT_ALREADY_EXISTS(6001, "客户端已存在"),
-    THE_CLIENT_DOES_NOT_E0XIST_OR_IS_DELETED(6001, "客户端不存在, 或已删除"),
+    THE_CLIENT_DOES_NOT_E0XIST_OR_IS_DELETED(6002, "客户端不存在, 或已删除"),
 
-
+    USER_ALREADY_EXISTS(6003, "用户已存在"),
+    THE_USER_DOES_NOT_EXIST(6004, "用户不存在"),
 
 
 

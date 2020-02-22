@@ -46,7 +46,7 @@ class OauthClientDetailsServiceTest extends AuthorizationServerApplicationTests 
     @Test
     void getAuthorizationTest(){
 
-        AuthorizationVO authorizationVO = oauthClientDetailsService.getAuthorization(2L);
+        AuthorizationVO authorizationVO = oauthClientDetailsService.getAuthorizationByClientCredentials(2L);
 
         System.out.println(authorizationVO.toString());
 

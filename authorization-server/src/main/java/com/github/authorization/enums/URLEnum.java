@@ -8,7 +8,7 @@ package com.github.authorization.enums;
 public enum  URLEnum {
 
     // 获取授权
-    OAUTH_TOKEN("/oauth/token?grant_type=client_credentials");
+    OAUTH_TOKEN("/oauth/token");
 
     ;
 

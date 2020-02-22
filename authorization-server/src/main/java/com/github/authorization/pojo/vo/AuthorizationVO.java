@@ -18,9 +18,9 @@ public class AuthorizationVO implements Serializable {
     private static final long serialVersionUID = -8405341874021540764L;
 
     /**
-     * 授权码
+     * 成功 token
      */
-    @ApiModelProperty("授权码")
+    @ApiModelProperty("成功 token")
     private String access_token;
 
     /**
@@ -29,13 +29,22 @@ public class AuthorizationVO implements Serializable {
     @ApiModelProperty("授权类型")
     private String token_type;
 
-    @ApiModelProperty(hidden = true)
+    /**
+     * 刷新token
+     */
+    @ApiModelProperty("刷新token")
     private String refresh_token;
 
-    @ApiModelProperty(hidden = true)
+    /**
+     * 有效时间
+     */
+    @ApiModelProperty("有效时间")
     private Integer expires_in;
 
-    @ApiModelProperty(hidden = true)
+    /**
+     * 操作
+     */
+    @ApiModelProperty("操作")
     private String scope;
 
 

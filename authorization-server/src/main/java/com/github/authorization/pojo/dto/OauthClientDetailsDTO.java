@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -36,15 +37,10 @@ public class OauthClientDetailsDTO implements Serializable {
     /**
      *  有效期 单位： 秒
      */
-    @ApiModelProperty(value = "有效期 单位： 秒,   永久：-1")
+    @NotNull(message = "有效期 不能为空", groups = ClientDetailsGroupValidator.class)
+    @ApiModelProperty(value = "有效期 单位： 秒,   永久：-1", required = true)
     private Integer validity;
 
-    /**
-     * 认证模式
-     */
-    @ApiModelProperty(value = "认证模式 (1：密码模式，2：授权码模式，3：简化模式，4：客户端模式)", required = true)
-    @NotBlank(message = "认证模式 不能为空", groups = ClientDetailsGroupValidator.class)
-    private Integer mode;
 
 
 

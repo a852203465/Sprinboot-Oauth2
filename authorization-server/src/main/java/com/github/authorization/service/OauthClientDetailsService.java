@@ -49,12 +49,20 @@ public interface OauthClientDetailsService extends IService<OauthClientDetails> 
     PageVO<OauthClientDetailsVO> findOauthClientDetails(PageDTO pageDTO);
 
     /**
-     *  根据客户端id 获取授权
+     *  根据客户端id 获取授权  客户端模式
      * @param clientId 客户端id
      * @date 2020/02/21
      * @return 授权信息
      */
-    AuthorizationVO getAuthorization(Long clientId);
+    AuthorizationVO getAuthorizationByClientCredentials(Long clientId);
+
+    /**
+     *  根据用户id 获取授权  密码模式
+     * @param userId 用户id
+     * @date 2020/02/22
+     * @return 授权信息
+     */
+    AuthorizationVO getAuthorizationByPassword (Long userId);
 
     /**
      * 对象转换
