@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.authorization.config.AuthConfig;
 import com.github.authorization.config.ServerConfig;
 import com.github.authorization.entity.OauthClientDetails;
+import com.github.authorization.enums.AuthenticationModeEnum;
 import com.github.authorization.enums.ResponseEnum;
 import com.github.authorization.enums.URLEnum;
 import com.github.authorization.exception.AuthorizationServerException;
@@ -74,7 +75,7 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
         oauthClientDetails.setResourceIds(RESOURCE_IDS);
         oauthClientDetails.setClientSecret(EncryptUtils.encodeAES(oauthClientDetailsDTO.getClientSecret(),
                 authConfig.getEncryptAESKey()));
-        oauthClientDetails.setAuthorizedGrantTypes(AUTHORIZED_GRANT_TYPES_CLIENT);
+        oauthClientDetails.setAuthorizedGrantTypes(AuthenticationModeEnum.getValue(oauthClientDetailsDTO.getMode()));
         oauthClientDetails.setScope(SCOPE_ALL);
         oauthClientDetails.setAccessTokenValidity(oauthClientDetailsDTO.getValidity());
 

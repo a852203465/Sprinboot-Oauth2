@@ -39,6 +39,14 @@ public class OauthClientDetailsDTO implements Serializable {
     @ApiModelProperty(value = "有效期 单位： 秒,   永久：-1")
     private Integer validity;
 
+    /**
+     * 认证模式
+     */
+    @ApiModelProperty(value = "认证模式 (1：密码模式，2：授权码模式，3：简化模式，4：客户端模式)", required = true)
+    @NotBlank(message = "认证模式 不能为空", groups = ClientDetailsGroupValidator.class)
+    private Integer mode;
+
+
 
 }
 
